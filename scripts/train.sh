@@ -1,5 +1,21 @@
+#!/bin/bash
+set -euxo pipefail
+
+# =================== User Configuration =====================
+# Please modify these variables according to your environment
+# ============================================================
+MODEL_PATH="<model_path>"
+OUTPUT_DIR="<output_path>"
+TRAIN_DATA="data/tooluse_data/train_data.json"
+VAL_DATA="data/tooluse_data/eval_data.json"
+
+PROJECT_NAME="Self-Distillation"
+EXP_NAME="Baseline"
 export HF_HOME="<your data cache path>"
 
+# =================== Script Execution ===================
+# You shouldn't need to modify anything below this line
+# ========================================================
 deepspeed main.py \
     --deepspeed ./scripts/zero2.json \
     --use_vllm True \
@@ -8,13 +24,13 @@ deepspeed main.py \
     --vllm_gpu_memory_utilization 0.3 \
     --vllm_enable_sleep_mode True \
     --vllm_importance_sampling_correction True \
-    --model_name_or_path Qwen/Qwen2.5-7B-Instruct \
-    --output_dir <output_path> \
+    --model_name_or_path $MODEL_PATH \
+    --output_dir $OUTPUT_DIR \
     --learning_rate 2e-5 \
     --num_train_epochs 1 \
     --seed 42 \
-    --train_path data/tooluse_data/train_data.json \
-    --eval_path data/tooluse_data/eval_data.json \
+    --train_path $TRAIN_DATA \
+    --eval_path $VAL_DATA \
     --per_device_train_batch_size 4 \
     --gradient_accumulation_steps 8 \
     --warmup_ratio 0.1 \
@@ -31,4 +47,6 @@ deepspeed main.py \
     --sync_ref_model True \
     --ref_model_sync_steps 1 \
     --ref_model_mixup_alpha 0.01 \
-    --num_loss_tokens_to_skip 3
+    --num_loss_tokens_to_skip 3 \
+    --project $PROJECT_NAME \
+    --run_name $EXP_NAME
