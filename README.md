@@ -41,21 +41,5 @@ pip install -r requirements.txt
 ### 4. Usage
 
 ```bash
-python main.py \
-  --model_name <path_to_model> \
-  --output_dir <output_path> \
-  --learning_rate 2e-5 \
-  --num_train_epochs 1
+bash scripts/train.sh
 ```
-
-## Arguments
-
-| Argument | Default | Description |
-|----------|---------|-------------|
-| `--model_name` | Qwen/Qwen2.5-7B-Instruct | Path to pretrained model |
-| `--output_dir` | - | Output directory for checkpoints |
-| `--learning_rate` | `2e-5` | Learning rate |
-| `--num_train_epochs` | `1` | Number of training epochs |
-| `--num_prompts_per_batch` | `32` | Prompts per batch |
-| `--ref_model_mixup_alpha` | `0.01` | Reference model mixup alpha |
-| `--seed` | `42` | Random seed |
