@@ -11,11 +11,14 @@ VAL_DATA="data/tooluse_data/eval_data.json"
 
 PROJECT_NAME="Self-Distillation"
 EXP_NAME="Baseline"
-export HF_HOME="<your data cache path>"
+HF_HOME="<your model cache path>"
 
 # =================== Script Execution ===================
 # You shouldn't need to modify anything below this line
 # ========================================================
+export WANDB_PROJECT="${PROJECT_NAME}"
+export HF_HOME="${HF_HOME}"
+
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 SAVE_DIR="${OUTPUT_DIR}/${EXP_NAME}/${TIMESTAMP}"
 
@@ -55,5 +58,4 @@ deepspeed main.py \
     --ref_model_sync_steps 1 \
     --ref_model_mixup_alpha 0.01 \
     --num_loss_tokens_to_skip 3 \
-    --project "${PROJECT_NAME}" \
     --run_name "${EXP_NAME}" > >(tee -a "${SAVE_DIR}/train.log") 2>&1
