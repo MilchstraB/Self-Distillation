@@ -8,10 +8,10 @@ MODEL_PATH="<model_path>"
 OUTPUT_DIR="<output_path>"
 TRAIN_DATA="data/tooluse_data/train_data.json"
 VAL_DATA="data/tooluse_data/eval_data.json"
+HF_HOME=".cache"
 
 PROJECT_NAME="Self-Distillation"
 EXP_NAME="Baseline"
-HF_HOME="<your model cache path>"
 
 # =================== Script Execution ===================
 # You shouldn't need to modify anything below this line
