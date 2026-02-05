@@ -1629,7 +1629,7 @@ class DistilTrainer(BaseTrainer):
 
         with torch.no_grad():
             teacher_per_token_logps, teacher_all_logps, teacher_entropies = self._get_per_token_logps_and_entropies(
-                self.ref_model,
+                model,
                 teacher_input_ids,
                 teacher_attention_mask,
                 logits_to_keep,
@@ -1675,6 +1675,8 @@ class DistilTrainer(BaseTrainer):
             # Compute the Generalized Jensen-Shannon Divergence
             kl_loss = alpha * kl_teacher + (1 - alpha) * kl_student
         per_token_loss = kl_loss.sum(-1)
+        if self.beta != 0.0:
+            per_token_loss = per_token_loss + self.beta * per_token_kl
 
         if self.use_vllm and self.vllm_importance_sampling_correction and not self.generate_from_teacher:
             ratio = inputs["importance_sampling_ratio"]

@@ -11,7 +11,7 @@ VAL_DATA="data/tooluse_data/eval_data.json"
 HF_HOME=".cache"
 
 PROJECT_NAME="Self-Distillation"
-EXP_NAME="Baseline"
+EXP_NAME="Decoupling"
 
 # =================== Script Execution ===================
 # You shouldn't need to modify anything below this line
@@ -54,8 +54,7 @@ deepspeed main.py \
     --max_grad_norm 1 \
     --report_to "wandb" \
     --log_completions False \
-    --sync_ref_model True \
-    --ref_model_sync_steps 1 \
-    --ref_model_mixup_alpha 0.01 \
+    --sync_ref_model False \
+    --beta 0.1 \
     --num_loss_tokens_to_skip 3 \
     --run_name "${EXP_NAME}" > >(tee -a "${SAVE_DIR}/train.log") 2>&1
